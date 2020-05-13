@@ -1,5 +1,6 @@
 ﻿using Grpc.Core;
 using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -76,6 +77,37 @@ namespace Store
                     throw;
                 }
             }
+
+            public async Task GetTotalCost(List<Beer> beers)
+            {
+                try
+                {
+                    Console.WriteLine("*** GetTotalCost");
+                    using (var call = _client.GetTotalCost())
+                    {
+                        Random random = new Random();
+
+                        foreach (Beer beer in beers)
+                        {
+                            Console.WriteLine(string.Format("*** Getting cost of beer: style={0} name={1} brewery={2}", beer.Style, beer.Name, beer.Brewery));
+
+                            await call.RequestStream.WriteAsync(beer);
+
+                            // add a small delay before sending the next one
+                            await Task.Delay(random.Next(1000) + 500);
+                        }
+                        await call.RequestStream.CompleteAsync();
+
+                        TotalCost cost = await call.ResponseAsync;
+                        Console.WriteLine(string.Format("*** Total cost of beers is ${0}", cost.Cost));
+                    }
+                }
+                catch (RpcException e)
+                {
+                    Console.WriteLine(string.Format("RPC failed", e));
+                    throw;
+                }
+            }
         }
 
         static void Main(string[] args)
@@ -91,6 +123,17 @@ namespace Store
 
             // Look for a list of stores which sells a valid beer
             client.ListStores("Stout", "Mocha Merlin", "Firestone Walker Brewing Company").Wait();
+
+            // Create Beer objects to get a total cost
+            List<Beer> beers = new List<Beer>()
+            {
+                new Beer() { Style = "Stout", Name = "Mocha Merlin", Brewery = "Firestone Walker Brewing Company" },
+                new Beer() { Style = "Stout", Name = "Chicory Stout", Brewery = "Dogfish Head" },
+                new Beer() { Style = "Imperial IPA", Name = "Fake Beer", Brewery = "My Awesome Brewing Company" },
+                new Beer() { Style = "Imperial IPA", Name = "Double Trouble IPA", Brewery = "Founders Brewing Company" }
+            };
+
+            client.GetTotalCost(beers).Wait();
 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");

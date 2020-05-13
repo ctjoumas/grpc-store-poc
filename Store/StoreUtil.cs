@@ -30,6 +30,7 @@ namespace Store
                 {
                     ItemNumber = jsonItem.itemNumber,
                     Beer = new Beer { Name = jsonItem.beer.name, Style = jsonItem.beer.style, Brewery = jsonItem.beer.brewery },
+                    Cost = jsonItem.cost,
                     Stores = { jsonItem.stores.Select(x => new StoreLocation() { Name = x }).ToList() }
                 });
             }
@@ -42,6 +43,7 @@ namespace Store
         {
             public int itemNumber;
             public JsonBeer beer;
+            public int cost;
             public List<string> stores;
         }
 

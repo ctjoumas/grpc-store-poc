@@ -31,6 +31,25 @@ namespace Store
             }
         }
 
+        public override async Task<TotalCost> GetTotalCost(IAsyncStreamReader<Beer> requestStream, ServerCallContext context)
+        {
+            int cost = 0;
+
+            while (await requestStream.MoveNext())
+            {
+                var beer = requestStream.Current;
+
+                var item = CheckItem(beer);
+
+                if (item.Exists())
+                {
+                    cost += item.Cost;
+                }
+            }
+
+            return new TotalCost { Cost = cost };
+        }
+
         private Item CheckItem(Beer request)
         {
             var result = _items.FirstOrDefault((item) => item.Beer.Equals(request));

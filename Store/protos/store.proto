@@ -23,9 +23,8 @@ service Store {
 
   // A client-to-server streaming RPC.
   //
-  // Accepts a stream of Points on a route being traversed, returning a
-  // RouteSummary when traversal is completed.
-  //rpc RecordRoute(stream Point) returns (RouteSummary) {}
+  // Accepts a stream of Beers and returns the total cost
+  rpc GetTotalCost(stream Beer) returns (TotalCost) {}
 
   // A Bidirectional streaming RPC.
   //
@@ -49,7 +48,14 @@ message Item {
   // The beer 
   Beer beer = 2;
 
-  repeated StoreLocation stores = 3;
+  int32 cost = 3;
+
+  repeated StoreLocation stores = 4;
+}
+
+// Total Cost
+message TotalCost {
+	int32 cost = 1;
 }
 
 // Store Location Name
