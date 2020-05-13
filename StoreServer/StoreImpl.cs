@@ -17,25 +17,28 @@ namespace Store
             _items = items;
         }
 
-        public override Task<Item> GetItemNumber(Beer request, ServerCallContext context)
+        public override Task<Item> GetItem(Beer request, ServerCallContext context)
         {
             return Task.FromResult(CheckItem(request));
         }
 
-        public override Task ListStores(Beer request, IServerStreamWriter<StoreLocation> responseStream, ServerCallContext context)
+        public override async Task ListStores(Beer request, IServerStreamWriter<StoreLocation> responseStream, ServerCallContext context)
         {
-            // TODO: Implement
-            return base.ListStores(request, responseStream, context);
+            var result = _items.FirstOrDefault((item) => item.Beer.Equals(request));
+            foreach (var store in result.Stores)
+            {
+                await responseStream.WriteAsync(store);   
+            }
         }
 
-        private Item CheckItem(Beer beer)
+        private Item CheckItem(Beer request)
         {
-            var result = _items.FirstOrDefault((b) => b.Equals(beer));
+            var result = _items.FirstOrDefault((item) => item.Beer.Equals(request));
 
             if (result == null)
             {
-                // No beer was found, return an unnamed beer.
-                return new Item() { ItemNumber = -1, Beer = beer };
+                // No beer was found, return an beer with a negative item number
+                return new Item() { ItemNumber = -1, Beer = request };
             }
 
             return result;

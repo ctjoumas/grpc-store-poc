@@ -11,10 +11,10 @@ package store;
 service Store {
   // A simple RPC.
   //
-  // Obtains the brewery which sells a specific beer.
+  // Obtains the item for the specific beer.
   //
-  // A brewery with an empty name is returned if there's no beer found.
-  rpc GetItemNumber(Beer) returns (Item) {}
+  // An item with an empty name is returned if there's no beer found.
+  rpc GetItem(Beer) returns (Item) {}
 
   // A server-to-client streaming RPC.
   //
@@ -49,7 +49,7 @@ message Item {
   // The beer 
   Beer beer = 2;
 
-  repeated string stores = 3;
+  repeated StoreLocation stores = 3;
 }
 
 // Store Location Name
