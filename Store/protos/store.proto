@@ -28,9 +28,9 @@ service Store {
 
   // A Bidirectional streaming RPC.
   //
-  // Accepts a stream of RouteNotes sent while a route is being traversed,
-  // while receiving other RouteNotes (e.g. from other users).
-  //rpc RouteChat(stream RouteNote) returns (stream RouteNote) {}
+  // Accepts a stream of Beers sent while prices are being looked up,
+  // while receiving other Beers (e.g. from other users).
+  rpc GetEachItemCost(stream Beer) returns (stream TotalCost) {}
 }
 
 // Beers are represented by the specific style and name.

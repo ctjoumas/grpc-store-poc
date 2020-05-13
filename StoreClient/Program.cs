@@ -89,19 +89,83 @@ namespace Store
 
                         foreach (Beer beer in beers)
                         {
-                            Console.WriteLine(string.Format("*** Getting cost of beer: style={0} name={1} brewery={2}", beer.Style, beer.Name, beer.Brewery));
+                            Item item = _client.GetItem(beer);
 
-                            await call.RequestStream.WriteAsync(beer);
+                            if (item.Exists())
+                            {
+                                Console.WriteLine(string.Format("*** Getting cost of beer: style={0} name={1} brewery={2}", beer.Style, beer.Name, beer.Brewery));
 
-                            // add a small delay before sending the next one
-                            await Task.Delay(random.Next(1000) + 500);
+                                await call.RequestStream.WriteAsync(beer);
+
+                                // add a small delay before sending the next one
+                                await Task.Delay(random.Next(1000) + 500);
+                            }
+                            else
+                            {
+                                Console.WriteLine(string.Format("Could not find item with name {0} \n", item.Beer.Name));
+                            }
                         }
                         await call.RequestStream.CompleteAsync();
 
                         TotalCost cost = await call.ResponseAsync;
-                        Console.WriteLine(string.Format("*** Total cost of beers is ${0}", cost.Cost));
+                        Console.WriteLine(string.Format("*** Total cost of beers is ${0}\n", cost.Cost));
                     }
                 }
+                catch (RpcException e)
+                {
+                    Console.WriteLine(string.Format("RPC failed", e));
+                    throw;
+                }
+            }
+
+            public async Task GetEachItemCost()
+            {
+                try
+                {
+                    Console.WriteLine("*** GetEachItemCost");
+
+                    // Create Beer objects to get a total cost
+                    List<Beer> beers = new List<Beer>()
+                    {
+                        new Beer() { Style = "Stout", Name = "Mocha Merlin", Brewery = "Firestone Walker Brewing Company" },
+                        new Beer() { Style = "Stout", Name = "Chicory Stout", Brewery = "Dogfish Head" },
+                        new Beer() { Style = "Imperial IPA", Name = "Fake Beer", Brewery = "My Awesome Brewing Company" },
+                        new Beer() { Style = "Imperial IPA", Name = "Double Trouble IPA", Brewery = "Founders Brewing Company" }
+                    };
+
+                    using (var call = _client.GetEachItemCost())
+                    {
+                        var responseReaderTask = Task.Run(async () =>
+                        {
+                            while (await call.ResponseStream.MoveNext())
+                            {
+                                var totalCost = call.ResponseStream.Current;
+                                Console.WriteLine(string.Format("Got message \"${0}\"", totalCost.Cost));
+                            }
+                        });
+
+                        foreach (Beer beer in beers)
+                        {
+                            Item item = _client.GetItem(beer);
+
+                            if (item.Exists())
+                            {
+                                Console.WriteLine(string.Format("Sending message style={0}, name={1}, brewery={2}", beer.Style, beer.Name, beer.Brewery));
+
+                                await call.RequestStream.WriteAsync(beer);
+                            }
+                            else
+                            {
+                                Console.WriteLine(string.Format("Could not find item with name {0} \n", item.Beer.Name));
+                            }
+                        }
+                        await call.RequestStream.CompleteAsync();
+                        await responseReaderTask;
+
+                        Console.WriteLine("Finished GetEachItemCost");
+                    }
+                }
+
                 catch (RpcException e)
                 {
                     Console.WriteLine(string.Format("RPC failed", e));
@@ -134,6 +198,8 @@ namespace Store
             };
 
             client.GetTotalCost(beers).Wait();
+
+            client.GetEachItemCost().Wait();
 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");

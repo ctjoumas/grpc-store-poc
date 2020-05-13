@@ -50,6 +50,18 @@ namespace Store
             return new TotalCost { Cost = cost };
         }
 
+        public override async Task GetEachItemCost(IAsyncStreamReader<Beer> requestStream, IServerStreamWriter<TotalCost> responseStream, ServerCallContext context)
+        {
+            while (await requestStream.MoveNext())
+            {
+                var beer = requestStream.Current;
+
+                var item = CheckItem(beer);
+
+                await responseStream.WriteAsync(new TotalCost { Cost = item.Cost });
+            }
+        }
+
         private Item CheckItem(Beer request)
         {
             var result = _items.FirstOrDefault((item) => item.Beer.Equals(request));
@@ -57,7 +69,7 @@ namespace Store
             if (result == null)
             {
                 // No beer was found, return an beer with a negative item number
-                return new Item() { ItemNumber = -1, Beer = request };
+                return new Item() { ItemNumber = -1, Beer = request, Cost = -1 };
             }
 
             return result;
