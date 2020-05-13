@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace Store
@@ -9,6 +10,14 @@ namespace Store
     public static class StoreUtil
     {
         public const string DefaultStoreFile = "store_db.json";
+
+        /// <summary>
+        /// Indicates whether the given item exists (i.e. has a valid item number)
+        /// </summary>
+        public static bool Exists(this Item item)
+        {
+            return item != null && (item.ItemNumber != -1);
+        }
 
         public static List<Item> ParseItems(string filename)
         {
@@ -21,7 +30,7 @@ namespace Store
                 {
                     ItemNumber = jsonItem.itemNumber,
                     Beer = new Beer { Name = jsonItem.beer.name, Style = jsonItem.beer.style, Brewery = jsonItem.beer.brewery },
-                    Stores = { jsonItem.stores }
+                    Stores = { jsonItem.stores.Select(x => new StoreLocation() { Name = x }).ToList() }
                 });
             }
 
