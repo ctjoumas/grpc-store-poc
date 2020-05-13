@@ -1,0 +1,102 @@
+[
+  {
+    "beer": {
+      "style": "IPA",
+      "name": "Jai Alai",
+      "brewery": "Cigar City Brewing"
+    },
+    "itemNumber": 1,
+    "cost": 6,
+    "stores": [ "Chantilly", "Sterling", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "IPA",
+      "name": "Pliny the Elder",
+      "brewery": "Russian River Brewing Company"
+    },
+    "itemNumber": 2,
+    "cost": 8,
+    "stores": [ "Chantilly", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Stout",
+      "name": "Mocha Merlin",
+      "brewery": "Firestone Walker Brewing Company"
+    },
+    "itemNumber": 3,
+    "cost": 6,
+    "stores": [ "Chantilly", "Sterling" ]
+  },
+  {
+    "beer": {
+      "style": "Stout",
+      "name": "Chicory Stout",
+      "brewery": "Dogfish Head"
+    },
+    "itemNumber": 4,
+    "cost": 7,
+    "stores": [ "Chantilly", "Sterling", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Stout",
+      "name": "Obidian Stout",
+      "brewery": "Deschutes Brewery"
+    },
+    "itemNumber": 5,
+    "cost": 5,
+    "stores": [ "Sterling", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Pumpkin Ale",
+      "name": "Pumpkin Ale",
+      "brewery": "Schlafly Beer"
+    },
+    "itemNumber": 6,
+    "cost": 5,
+    "stores": [ "Chantilly", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Russian Imperial Stout",
+      "name": "Imperial Stout",
+      "brewery": "Founders Brewing Company"
+    },
+    "itemNumber": 7,
+    "cost": 8,
+    "stores": [ "Sterling", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Imperial IPA",
+      "name": "Double Trouble IPA",
+      "brewery": "Founders Brewing Company"
+    },
+    "itemNumber": 8,
+    "cost": 7,
+    "stores": [ "Chantilly", "Bethesda" ]
+  },
+  {
+    "beer": {
+      "style": "Imperial IPA",
+      "name": "Maharaja",
+      "brewery": "Avery Brewing Company"
+    },
+    "itemNumber": 9,
+    "cost": 8,
+    "stores": [ "Chantilly", "Sterling", "Tysons" ]
+  },
+  {
+    "beer": {
+      "style": "Pumpkin Ale",
+      "name": "Pumking",
+      "brewery": "Southern Tier Brewing Company"
+    },
+    "itemNumber": 10,
+    "cost": 9,
+    "stores": [ "Chantilly" ]
+  }
+]
