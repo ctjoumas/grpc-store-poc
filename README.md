@@ -53,9 +53,9 @@ public void GetItem(string style, string name, string brewery)
 }
 ```
 
-### To run the project
-##Server
+## To run the project
+### Server
 From the command line, navigate to the StoreServer\bin\Debug\netcoreapp2.1 folder and run <i>dotnet exec StoreServer.dll</i>
 
-## Client
+### Client
 You can run this with the same command as for the Server or in Visual Studio, set the client as the startup project and run from there.
