@@ -12,10 +12,12 @@ This is the gRPC service, defined in the proto (protocol buffers) file, which de
 Listens on port 50052 of the localhost and implements the API generated from the protocol buffer.
 
 ### Example of implementing the simple RPC
-`public override Task<Item> GetItem(Beer request, ServerCallContext context)
+`
+public override Task<Item> GetItem(Beer request, ServerCallContext context)
 {
     return Task.FromResult(CheckItem(request));
-}`
+}
+`
 
 ## StoreClient project
 Connects to the server and calls the API.
