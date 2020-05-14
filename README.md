@@ -23,7 +23,8 @@ public override Task<Item> GetItem(Beer request, ServerCallContext context)
 Connects to the server and calls the API.
 
 ### Example of calling the simple RPC
-`public void GetItem(string style, string name, string brewery)
+```
+public void GetItem(string style, string name, string brewery)
 {
     try
     {
@@ -47,4 +48,5 @@ Connects to the server and calls the API.
         Console.WriteLine("RPC failed " + e);
         throw;
     }
-}`
+}
+```
