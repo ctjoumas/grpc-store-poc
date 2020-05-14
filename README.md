@@ -8,6 +8,8 @@ Implements a simple store gRPC service which demonstrates the four types of RPC:
 ## Store project
 This is the gRPC service, defined in the proto (protocol buffers) file, which describes the service interface and the structure of the payload messages. The Grpc.Tools NuGet package is added as a dependency and whill compile the protocol buffer (.proto file) and generate the necessary client and server-side code. Users will call the API from the client side and implement the corresponding API on the server side.
 
+Note that the generated files will be created in the obj\Debug\netcoreapp2.1 folder.
+
 ## StoreServer project
 Listens on port 50052 of the localhost and implements the API generated from the protocol buffer.
 
@@ -50,3 +52,10 @@ public void GetItem(string style, string name, string brewery)
     }
 }
 ```
+
+### To run the project
+##Server
+From the command line, navigate to the StoreServer\bin\Debug\netcoreapp2.1 folder and run <i>dotnet exec StoreServer.dll</i>
+
+## Client
+You can run this with the same command as for the Server or in Visual Studio, set the client as the startup project and run from there.
