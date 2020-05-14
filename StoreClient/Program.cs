@@ -118,20 +118,11 @@ namespace Store
                 }
             }
 
-            public async Task GetEachItemCost()
+            public async Task GetEachItemCost(List<Beer> beers)
             {
                 try
                 {
                     Console.WriteLine("*** GetEachItemCost");
-
-                    // Create Beer objects to get a total cost
-                    List<Beer> beers = new List<Beer>()
-                    {
-                        new Beer() { Style = "Stout", Name = "Mocha Merlin", Brewery = "Firestone Walker Brewing Company" },
-                        new Beer() { Style = "Stout", Name = "Chicory Stout", Brewery = "Dogfish Head" },
-                        new Beer() { Style = "Imperial IPA", Name = "Fake Beer", Brewery = "My Awesome Brewing Company" },
-                        new Beer() { Style = "Imperial IPA", Name = "Double Trouble IPA", Brewery = "Founders Brewing Company" }
-                    };
 
                     using (var call = _client.GetEachItemCost())
                     {
@@ -199,7 +190,7 @@ namespace Store
 
             client.GetTotalCost(beers).Wait();
 
-            client.GetEachItemCost().Wait();
+            client.GetEachItemCost(beers).Wait();
 
             channel.ShutdownAsync().Wait();
             Console.WriteLine("Press any key to exit...");
