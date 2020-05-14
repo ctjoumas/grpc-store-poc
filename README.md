@@ -19,7 +19,8 @@ The key to ensuring the project is aware of the .proto file is to add the Protob
 Note that the generated files will be created in the obj\Debug\netcoreapp2.1 folder.
 
 ## StoreServer project
-Listens on port 50052 of the localhost and implements the API generated from the protocol buffer.
+Implements the service: ``` public class StoreImpl : Store.StoreBase ```
+and listens on port 50052 of the localhost and implements the API generated from the protocol buffer.
 
 ### Example of implementing the simple RPC
 ```
